@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Upload a Webpage URL or Text Passage</h1>
+        
+        <!-- Dropdown to choose input type -->
+        <form action="/generate" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="inputType">Choose Input Type</label>
+                <select class="form-control" id="inputType" onchange="toggleInput()">
+                    <option value="">Select</option>
+                    <option value="url">URL</option>
+                    <option value="text">Text Passage</option>
+                </select>
+            </div>
+
+            <!-- Hidden input for type flag -->
+            <input type="hidden" id="typeFlag" name="typeFlag">
+
+            <!-- URL Input Field -->
+            <div id="urlInputDiv" class="form-group mt-3" style="display: none;">
+                <label for="urlInput">Webpage URL</label>
+                <input
+                    type="url"
+                    class="form-control"
+                    id="urlInput"
+                    placeholder="Enter URL"
+                />
+            </div>
+
+            <!-- Text Passage Input Field -->
+            <div id="textInputDiv" class="form-group mt-3" style="display: none;">
+                <label for="textInput">Text Passage</label>
+                <textarea
+                    class="form-control"
+                    id="textInput"
+                    rows="5"
+                    placeholder="Enter text passage here"
+                ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        </form>
+
+        <script>
+            function toggleInput() {
+                const inputType = document.getElementById("inputType").value;
+                const urlInputDiv = document.getElementById("urlInputDiv");
+                const textInputDiv = document.getElementById("textInputDiv");
+                const urlInput = document.getElementById("urlInput");
+                const textInput = document.getElementById("textInput");
+                const typeFlag = document.getElementById("typeFlag");
+
+                // Reset 'name' attributes to avoid sending both fields
+                urlInput.removeAttribute("name");
+                textInput.removeAttribute("name");
+
+                if (inputType === "url") {
+                    urlInputDiv.style.display = "block";
+                    textInputDiv.style.display = "none";
+                    urlInput.setAttribute("name", "context");  // Set name for URL input
+                    typeFlag.value = "url";  // Set typeFlag to 'url'
+                } else if (inputType === "text") {
+                    textInputDiv.style.display = "block";
+                    urlInputDiv.style.display = "none";
+                    textInput.setAttribute("name", "context");  // Set name for text input
+                    typeFlag.value = "text";  // Set typeFlag to 'text'
+                } else {
+                    urlInputDiv.style.display = "none";
+                    textInputDiv.style.display = "none";
+                    typeFlag.value = "";  // Clear typeFlag if no option is selected
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>
